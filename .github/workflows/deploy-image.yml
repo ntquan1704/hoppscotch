@@ -29,5 +29,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: ./packages/hoppscotch-backend
+          file: ./packages/hoppscotch-backend/Dockerfile
           tags: ntq1740493/hoppscotch-backend:latest
