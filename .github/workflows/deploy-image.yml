@@ -1,4 +1,4 @@
-name: 'Build And Deploy Image to Docker Hub'
+name: 'Build And Deploy Images to Docker Hub'
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - 'feature/**'
 
 jobs:
-  deploy-backend:
+  prepare:
     runs-on: ubuntu-latest
     
     steps:
@@ -37,10 +37,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-      - name: List file
-        run: ls -la
-
+  
+  build-backend:
+    runs-on: ubuntu-latest
+    needs: prepare
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+ 
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
@@ -48,3 +53,29 @@ jobs:
           context: .
           file: ./packages/hoppscotch-backend/Dockerfile
           tags: ntq170493/hoppscotch-backend:latest
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    needs: prepare
+    
+    steps:
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: .
+          file: ./packages/hoppscotch-selfhost-web/Dockerfile
+          tags: ntq170493/hoppscotch-selfhost-web:latest
+
+  build-sh-admin:
+    runs-on: ubuntu-latest
+    needs: prepare
+    
+    steps:
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: .
+          file: ./packages/hoppscotch-sh-admin/Dockerfile
+          tags: ntq170493/hoppscotch-sh-admin:latest
