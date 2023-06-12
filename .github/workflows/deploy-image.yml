@@ -9,6 +9,7 @@ on:
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,9 +24,6 @@ jobs:
           file_name: .env
           fail_on_empty: true
 
-      - name: Copy envfile
-        run: cp /github/workspace/.env ${{github.workspace}}/.env
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -38,6 +36,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
+      - name: List file
+        run: ls -la
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
