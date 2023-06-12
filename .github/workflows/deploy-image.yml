@@ -47,4 +47,4 @@ jobs:
           push: true
           context: .
           file: ./packages/hoppscotch-backend/Dockerfile
-          tags: ntq1740493/hoppscotch-backend:latest
+          tags: ntq170493/hoppscotch-backend:latest
