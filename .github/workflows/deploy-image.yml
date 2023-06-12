@@ -24,7 +24,7 @@ jobs:
           fail_on_empty: true
 
       - name: Copy envfile
-        run: cp .env ${{github.workspace}}/.env
+        run: cp /github/workspace/.env ${{github.workspace}}/.env
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
